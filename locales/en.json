@@ -1,5 +1,11 @@
 {
   "translation": {
-    "test": "test"
+    "test": "test",
+    "language": "Language",
+    "theme": "Theme",
+    "accountSettings": "Account Settings",
+    "sign-in": "SIGN-IN",
+    "username":"Username",
+    "password":"Password"
   }
 }

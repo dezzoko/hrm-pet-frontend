@@ -43,6 +43,16 @@ module.exports = {
         '@typescript-eslint/no-unused-vars': 'warn',
         'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
         'react-hooks/exhaustive-deps': 'error', // Checks effect dependencies
+        'jsx-a11y/label-has-associated-control': ['error', {
+            required: {
+                some: ['nesting', 'id'],
+            },
+        }],
+        'jsx-a11y/label-has-for': ['error', {
+            required: {
+                some: ['nesting', 'id'],
+            },
+        }],
         'i18next/no-literal-string': [
             'error',
             {

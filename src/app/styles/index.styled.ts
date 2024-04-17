@@ -6,11 +6,15 @@ export default createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     outline: none;
+    font-size:16px;
   }
 
   *::before,
   *::after {
     box-sizing: border-box;
+  }
+  div button {
+  transition-duration: 0.2s;
   }
 
   body {

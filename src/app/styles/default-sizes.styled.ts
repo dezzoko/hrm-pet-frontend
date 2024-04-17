@@ -5,5 +5,12 @@ export const defaultSizes:StyledVariables = {
         header: {
             height: 56,
         },
+        borderRadius: {
+            small: 4,
+            medium: 8,
+            large: 12,
+            round: 50,
+        },
+
     },
 };

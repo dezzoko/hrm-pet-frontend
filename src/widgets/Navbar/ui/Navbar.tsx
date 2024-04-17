@@ -1,17 +1,12 @@
 /* eslint-disable i18next/no-literal-string */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styled, { css, keyframes } from 'styled-components';
-import { Menu, Switch, Transition } from '@headlessui/react';
-import { useState } from 'react';
-import { Dropdown, Title1 } from '@/shared/ui';
-import { Title2 } from '@/shared/ui/micro-components/micro-components';
+import styled from 'styled-components';
+import { Title1 } from '@/shared/ui';
+import { NavMenu } from '@/features/NavMenu';
 
-const StyledNavbar = styled.div`
+const StyledNavbar = styled.nav`
     height: ${({ theme }) => theme.sizes.header.height}px;
     background-color:${({ theme }) => theme.bgColors.primaryColor};
-    
-    /* border-bottom: 1px black solid; */
-    /* border-bottom: 1px black solid; */
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.03);
 `;
 
@@ -44,7 +39,7 @@ export function Navbar() {
                     HRM
                 </LogoTitle>
                 <WrapperMenu>
-                    <Dropdown label="Gena bukin" labelIcon={['fas', 'chevron-up']} />
+                    <NavMenu />
                 </WrapperMenu>
             </WrapperNavbar>
         </StyledNavbar>
