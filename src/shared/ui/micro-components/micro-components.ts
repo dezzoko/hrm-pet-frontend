@@ -1,10 +1,26 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { StyledTheme } from '@/app/types/styled.types';
 
 interface TitleProps {
     weight?: 200 | 300 | 400 | 500 | 600 | 700;
     disablePointerEvents?:boolean;
 }
 
+export enum TypographyColors{
+    primaryColor='primaryColor',
+    redColor='redColor',
+}
+
+interface TypographyProps {
+    color?: TypographyColors;
+}
+const typographyColors = {
+    primaryColor: css`
+    color: ${({ theme }) => theme.colors.primaryColor};`,
+
+    redColor: css`
+    color: ${({ theme }) => theme.colors.redColor};`,
+};
 export const Title1 = styled.h1<TitleProps>`
   font-size: 24px;
   color: ${({ theme }) => theme.colors.primaryColor};
@@ -19,8 +35,9 @@ export const Title2 = styled.h1<TitleProps>`
   pointer-events: ${({ disablePointerEvents }) => (disablePointerEvents ? 'none' : '')};
 `;
 
-export const Typography = styled.p`
-  color: ${({ theme }) => theme.colors.primaryColor};
+export const Typography = styled.p<TypographyProps>`
+  font-size: 14px;
+  ${({ color }) => typographyColors[color || TypographyColors.primaryColor]}
 `;
 
 export const Text = styled.span`

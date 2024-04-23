@@ -5,7 +5,9 @@
     "theme": "Theme",
     "accountSettings": "Account Settings",
     "sign-in": "SIGN-IN",
-    "username":"Username",
-    "password":"Password"
+    "username": "Username",
+    "password": "Password",
+    "password-field-is-required": "Password field is required",
+    "login-field-is-required": "Login field is required"
   }
 }

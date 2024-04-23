@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, useId } from 'react';
+import React, { InputHTMLAttributes, useId } from 'react';
 import styled from 'styled-components';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -34,8 +34,7 @@ const InputContainer = styled.div`
     width: 100%;
   }
 `;
-
-export function Input(props: InputProps) {
+export const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     const { label, ...other } = props;
     const inputId = useId();
     return (
@@ -44,9 +43,9 @@ export function Input(props: InputProps) {
                 { label }
             </label>
             <InputContainer>
-                <StyledInput id={inputId} className="effect-1" type="text" {...other} />
+                <StyledInput id={inputId} className="effect-1" type="text" {...other} ref={ref} />
                 <FocusBorder className="focus-border" />
             </InputContainer>
         </StyledWrapper>
     );
-}
+});

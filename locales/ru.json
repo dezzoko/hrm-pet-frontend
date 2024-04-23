@@ -5,6 +5,8 @@
     "theme": "Тема",
     "accountSettings": "Настройки аккаунта",
     "sign-in": "Войти",
+    "password-field-is-required": "Поле пароля обязательно для заполнения",
+    "login-field-is-required": "Поле логина обязательно для заполнения",
     "username": "Имя пользователя",
     "password": "Пароль"
   }

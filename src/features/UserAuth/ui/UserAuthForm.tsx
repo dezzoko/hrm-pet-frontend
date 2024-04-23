@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { Input } from '@/shared/ui/Input';
-import { Title2 } from '@/shared/ui/micro-components/micro-components';
-import 'react-toastify/dist/ReactToastify.css';
+import { Title2, Typography, TypographyColors } from '@/shared/ui/micro-components/micro-components';
 import { Button } from '@/shared/ui/Button/Button';
 
 interface UserAuthFormProps {
@@ -30,19 +30,58 @@ const InputContainer = styled.div`
     flex-direction:column;
     justify-content:center;
 `;
+
+type Inputs = {
+    login: string
+    password: string
+}
 export function UserAuthForm(props: UserAuthFormProps) {
     const { t } = useTranslation();
 
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<Inputs>();
+
+    const onSubmit: SubmitHandler<Inputs> = (data) => {
+        console.log(data);
+    };
+
     return (
-        <StyledForm>
+        <StyledForm onSubmit={handleSubmit(onSubmit)}>
             <Title2 weight={700} disablePointerEvents>
                 {t('sign-in')}
             </Title2>
             <InputContainer>
-                <Input label="Username" placeholder="Login" />
-                <Input label="Password" placeholder="Password" type="password" />
+                <Input
+                    label={t('username')}
+                    placeholder="Login"
+                    {...register('login', { required: true })}
+                />
+                {errors.login && (
+                    <Typography color={TypographyColors.redColor}>
+                        {t('login-field-is-required')}
+                    </Typography>
+                )}
+
+                <Input
+                    label={t('password')}
+                    placeholder="Password"
+                    type="password"
+                    {...register('password', { required: true })}
+                />
+
+                {errors.password
+                && (
+                    <Typography
+                        color={TypographyColors.redColor}
+                    >
+                        {t('password-field-is-required')}
+                    </Typography>
+                )}
             </InputContainer>
-            <Button>{t('sign-in')}</Button>
+            <Button type="submit">{t('sign-in')}</Button>
         </StyledForm>
     );
 }
