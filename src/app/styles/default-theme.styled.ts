@@ -17,8 +17,10 @@ export const defaultTheme: StyledThemeAndVariables = {
     },
     colors: {
         invertedPrimaryColor: '',
-        primaryColor: '',
+        primaryColor: '#121212', // black
+        secondaryColor: '#fff', // white
         logoGradientColor: 'linear-gradient(to bottom, black 0%, #621981 100%)',
         logoColor: '#b653ff',
+        redColor: '#ff0000',
     },
 };

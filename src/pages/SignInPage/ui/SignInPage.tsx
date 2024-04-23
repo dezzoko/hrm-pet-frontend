@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { UserAuthForm } from '@/features/UserAuth';
 
 const StyledWrapper = styled.div`

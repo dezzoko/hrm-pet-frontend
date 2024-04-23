@@ -2,6 +2,7 @@ import { RouteProps } from 'react-router-dom';
 import { ProfilePage } from '@/pages/ProfilePage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { SignInPage } from '@/pages/SignInPage';
+import { MainPage } from '@/pages/MainPage';
 
 export type AppRouteProps = RouteProps & {
     authOnly?: boolean;
@@ -9,8 +10,8 @@ export type AppRouteProps = RouteProps & {
 };
 
 export enum AppRoutes {
-//   MAIN = "main",
-//   ABOUT = "about",
+    MAIN = 'main',
+    //   ABOUT = "about",
     NOT_FOUND = 'not_found',
     PROFILE = 'profile',
     SIGN_IN = 'sign_in',
@@ -19,8 +20,8 @@ export enum AppRoutes {
 }
 
 export const RoutePath: Record<AppRoutes, string> = {
-//   [AppRoutes.MAIN]: "/",
-//   [AppRoutes.ABOUT]: "about",
+    [AppRoutes.MAIN]: '/',
+    // [AppRoutes.ABOUT]: 'about',
     [AppRoutes.PROFILE]: '/profile/', // + :id
     //   [AppRoutes.ARTICLES]: "/articles",
     //   [AppRoutes.ARTICLE_DETAILS]: "/articles/", // + :id
@@ -31,10 +32,11 @@ export const RoutePath: Record<AppRoutes, string> = {
 
 export const routeConfig: Record<AppRoutes, AppRouteProps> = {
 
-    //   [AppRoutes.ABOUT]: {
-    //     path: RoutePath.about,
-    //     element: <AboutPage />,
-    //   },
+    [AppRoutes.MAIN]: {
+        path: RoutePath.main,
+        element: <MainPage />,
+        outsideLayout: true,
+    },
     [AppRoutes.PROFILE]: {
         path: `${RoutePath.profile}:id`,
         element: <ProfilePage />,
@@ -42,8 +44,8 @@ export const routeConfig: Record<AppRoutes, AppRouteProps> = {
     },
     [AppRoutes.NOT_FOUND]: {
         path: RoutePath.not_found,
-        outsideLayout: true,
         element: <NotFoundPage />,
+        outsideLayout: true,
     },
     [AppRoutes.SIGN_IN]: {
         path: RoutePath.sign_in,
