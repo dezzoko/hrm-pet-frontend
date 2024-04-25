@@ -36,7 +36,7 @@ export const Title2 = styled.h1<TitleProps>`
 `;
 
 export const Typography = styled.p<TypographyProps>`
-  font-size: 14px;
+  font-size: 16px;
   ${({ color }) => typographyColors[color || TypographyColors.primaryColor]}
 `;
 

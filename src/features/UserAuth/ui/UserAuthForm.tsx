@@ -3,10 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Input } from '@/shared/ui/Input';
 import { Title2, Typography, TypographyColors } from '@/shared/ui/micro-components/micro-components';
-import { Button } from '@/shared/ui/Button/Button';
-
-interface UserAuthFormProps {
-}
+import { useLoginMutation } from '../model/api/auth.api';
+import { Button } from '@/shared/ui';
 
 const StyledForm = styled.form`
     display: flex;
@@ -35,7 +33,7 @@ type Inputs = {
     login: string
     password: string
 }
-export function UserAuthForm(props: UserAuthFormProps) {
+export function UserAuthForm() {
     const { t } = useTranslation();
 
     const {
@@ -44,8 +42,13 @@ export function UserAuthForm(props: UserAuthFormProps) {
         formState: { errors },
     } = useForm<Inputs>();
 
+    const [loginHandler] = useLoginMutation();
+
     const onSubmit: SubmitHandler<Inputs> = (data) => {
-        console.log(data);
+        loginHandler({
+            password: data.password,
+            email: data.login,
+        });
     };
 
     return (

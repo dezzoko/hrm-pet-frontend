@@ -35,7 +35,7 @@ const leaveAnimation = keyframes`
     transform: scale(0.95);
   }
 `;
-const StyledMenuItems = styled(Menu.Items)<{open:boolean}>`
+const StyledMenuItems = styled(Menu.Items)<{open:boolean, right?:number, left?:number, top?:number, bottom?:number}>`
     overflow:hidden;
     display: flex;
     position:absolute;
@@ -43,8 +43,10 @@ const StyledMenuItems = styled(Menu.Items)<{open:boolean}>`
     background-color:white;
     width:250px;
     border:1px black solid;
-    top:50px;
-    right:10px;
+    right:${({ right }) => `${right}px` || '0'};
+    top:${({ top }) => (top ? `${top}px` : '30px')};
+    bottom:${({ bottom }) => `${bottom}px` || ''};
+    left:${({ left }) => `${left}px` || '0'};
     border-radius: 12px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.14);
     flex-direction: column;
@@ -83,21 +85,26 @@ const MenuItemWrapper = styled.div`
 
 export interface DropdownItem{
     props?:MenuItemProps<any>
-    component:ReactNode
+    component:ReactNode;
+    key:string;
 }
 
 interface DropdownProps {
     dropdownButton?:ReactNode;
     dropdownItems?:DropdownItem[];
+    right?:number;
+    left?:number;
+    top?:number;
+    bottom?:number;
 }
 
 export function Dropdown(props: DropdownProps) {
     const {
-        dropdownButton, dropdownItems,
+        dropdownButton, dropdownItems, ...other
     } = props;
 
     return (
-        <div>
+        <div style={{ position: 'relative' }}>
             <Menu>
                 {({ open }) => (
                     <>
@@ -107,10 +114,10 @@ export function Dropdown(props: DropdownProps) {
                                 <RotatableIcon icon={['fas', 'chevron-up']} $isactive={open} />
                             </StyledMenuButton>
                         </MenuButtonWrapper>
-                        <StyledMenuItems open={open}>
+                        <StyledMenuItems {...other} open={open}>
                             {
                                 dropdownItems?.map((item) => (
-                                    <StyledMenuItem {...item.props}>
+                                    <StyledMenuItem key={item.key} {...item.props}>
                                         <MenuItemWrapper>
                                             {item.component}
                                         </MenuItemWrapper>

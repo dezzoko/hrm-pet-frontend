@@ -9,6 +9,8 @@ export default createGlobalStyle`
     font-size:16px;
   }
 
+
+
   *::before,
   *::after {
     box-sizing: border-box;
@@ -17,10 +19,13 @@ export default createGlobalStyle`
   transition-duration: 0.2s;
   }
 
+ 
+
   body {
     font-family: 'Oswald', sans-serif;
     font-weight: 400;
     font-size: 16px;
+    height:100vh;
   }
 
   a {
@@ -38,4 +43,5 @@ export default createGlobalStyle`
   table {
     margin: 0;
   }
+
 `;

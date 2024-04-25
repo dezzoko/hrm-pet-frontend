@@ -1,10 +1,29 @@
-import styled, { DefaultTheme, ThemedCssFunction, css } from 'styled-components';
-import { ButtonSize, ButtonTheme } from './Button';
+import styled, { css } from 'styled-components';
 import { StyledVariants } from '@/app/types/styled.types';
 
+export enum ButtonTheme {
+    CLEAR = 'clear',
+    OUTLINE = 'outline',
+    BACKGROUND = 'background',
+    OUTLINE_RED = 'outlineRed',
+}
+
+export enum ButtonMods {
+    SQUARE = 'square',
+    ROUND = 'round',
+}
+export enum ButtonSize {
+    M = 'size_m',
+    L = 'size_l',
+    XL = 'size_xl',
+}
+
 interface ButtonProps{
-    buttonTheme:ButtonTheme;
-    size:ButtonSize;
+    buttonTheme?:ButtonTheme;
+    size?:ButtonSize;
+    round?:boolean;
+    buttonMode?:ButtonMods;
+    width?:string;
 }
 
 const sizes: StyledVariants<ButtonSize> = {
@@ -33,6 +52,7 @@ const buttonThemes: Record<ButtonTheme, any> = {
     background: none;
     outline: none;
   `,
+
     outline: css`
     padding:10px;
     border: ${({ theme }) => `1px solid ${theme.colors.primaryColor}`};
@@ -46,15 +66,29 @@ const buttonThemes: Record<ButtonTheme, any> = {
     `,
 };
 
-export const StyledButton = styled.button<ButtonProps>`
+const buttonMods:Record<ButtonMods, any> = {
+    round: css`
+    border-radius: 50%;
+
+  `,
+    square: css`
+    border-radius: 0;
+  `,
+
+};
+export const Button = styled.button<ButtonProps>`
   cursor: pointer;
+  border-radius: 5px;
+
   color: ${({ theme }) => theme.colors.primaryColor};
 
-  ${({ buttonTheme }) => buttonThemes[buttonTheme]}
-  ${({ size }) => sizes[size]}
+  ${({ buttonTheme }) => (buttonTheme ? buttonThemes[buttonTheme] : buttonThemes.outline)}
+  ${({ size }) => (size ? sizes[size] : sizes.size_m)}
+
+  ${(props) => (props.buttonMode ? buttonMods[props.buttonMode] : '')}
+
+  ${({ width }) => width && `width:${width}px;`};
   &:hover {
     opacity: 0.7;
   }
-
-  ${{}}
 `;

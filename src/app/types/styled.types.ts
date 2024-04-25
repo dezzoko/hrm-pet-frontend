@@ -34,7 +34,7 @@ export interface StyledTheme{
     bgColors:{
         primaryColor:string;
         secondaryColor:string;
-        shadowColor:string
+        shadowColor:string;
     },
     borderColors:{
         primaryColor:string;

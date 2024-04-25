@@ -1,12 +1,13 @@
-import { Menu, Switch } from '@headlessui/react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Dropdown, DropdownItem } from '@/shared/ui';
 import { Title2 } from '@/shared/ui/micro-components/micro-components';
 import { ThemeSwitcher } from '@/features/ThemeSwitcher';
 import { LanguageSwitcher } from '@/features/LanguageSwitcher';
+import { useAppSelector } from '@/app/providers/StoreProvider/config/store';
+import { RoutePath } from '@/app/providers/router/config/route-config';
 
 const ItemContainer = styled.div`
     display: flex;
@@ -25,24 +26,20 @@ const MenuActions = styled.div`
     margin-left:auto;
 `;
 
-interface NavMenuProps {
-}
-export function NavMenu(props: NavMenuProps) {
-    const [enabled, setEnabled] = useState(false);
-
-    const [isActive, setIsActive] = useState('ru');
+export function NavMenu() {
     const { t } = useTranslation();
-    const onClickHandler = (value:string) => {
-        setIsActive(value);
-    };
+
+    const user = useAppSelector((state) => state.userReducer.user?.email);
     const dropDownButton = (
         <Title2>
-
+            {user}
         </Title2>
     );
+    const navigate = useNavigate();
 
     const dropdownItems:DropdownItem[] = [
         {
+            key: 'profile',
             props: {
                 disabled: true,
             },
@@ -59,6 +56,7 @@ export function NavMenu(props: NavMenuProps) {
             ),
         },
         {
+            key: 'theme',
             props: {
                 disabled: true,
             },
@@ -77,10 +75,11 @@ export function NavMenu(props: NavMenuProps) {
         ),
         },
         {
+            key: 'settings',
             component: (
                 <>
                     <FontAwesomeIcon icon={['fas', 'gear']} />
-                    <StyledText>
+                    <StyledText onClick={() => navigate(RoutePath.settings)}>
                         {t('accountSettings')}
                     </StyledText>
                 </>
@@ -89,6 +88,7 @@ export function NavMenu(props: NavMenuProps) {
 
     ];
     return (
-        <Dropdown dropdownButton={dropDownButton} dropdownItems={dropdownItems} />
+
+        <Dropdown dropdownButton={dropDownButton} right={0} dropdownItems={dropdownItems} />
     );
 }
