@@ -11,12 +11,12 @@ export function ProfilePage() {
     const navigate = useNavigate();
 
     const { data, error } = useGetUserQuery(+id!);
+
     useEffect(() => {
         if (!id || Number.isNaN(+id)) navigate(RoutePath.not_found);
     }, [id, navigate]);
     useEffect(() => {
         if (error) navigate(RoutePath.not_found);
     }, [error, navigate]);
-
     return <UserProfile user={data!}></UserProfile>;
 }

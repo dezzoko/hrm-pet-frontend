@@ -8,7 +8,7 @@ export const defaultTheme: StyledThemeAndVariables = {
     ...defaultSizes,
     bgColors: {
         primaryColor: '#FFF',
-        secondaryColor: '#621981',
+        secondaryColor: 'rgb(121 144 255)',
         shadowColor: '#e3dfdf',
     },
     borderColors: {

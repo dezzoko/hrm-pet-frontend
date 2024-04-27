@@ -10,6 +10,10 @@ export default createGlobalStyle`
   }
 
 
+  html {
+    padding-right:0 !important;
+  }
+
 
   *::before,
   *::after {

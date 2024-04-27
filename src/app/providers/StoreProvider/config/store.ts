@@ -7,16 +7,19 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { userApi, userReducer } from '@/entities/User';
 import { authApi } from '@/features/UserAuth/model/api/auth.api';
 import { rtkQueryErrorLogger } from '@/shared/middlewares/error-toast.middleware';
+import { courseApi } from '@/entities/Courses';
 
 export const store = configureStore({
     reducer: combineReducers({
         userReducer,
         [authApi.reducerPath]: authApi.reducer,
         [userApi.reducerPath]: userApi.reducer,
+        [courseApi.reducerPath]: courseApi.reducer,
     }),
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([
         authApi.middleware,
         userApi.middleware,
+        courseApi.middleware,
         rtkQueryErrorLogger,
     ]),
 });

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useEffect } from 'react';
 import { Input } from '@/shared/ui/Input';
 import { Title2, Typography, TypographyColors } from '@/shared/ui/micro-components/micro-components';
 import { useLoginMutation } from '../model/api/auth.api';
@@ -39,6 +40,7 @@ export function UserAuthForm() {
     const {
         register,
         handleSubmit,
+        setValue,
         formState: { errors },
     } = useForm<Inputs>();
 

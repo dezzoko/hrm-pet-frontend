@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { width } from '@fortawesome/free-solid-svg-icons/fa0';
 import { StyledTheme } from '@/app/types/styled.types';
 
 interface TitleProps {
@@ -53,4 +54,50 @@ export const VStack = styled.div`
   height:100%;
   display:flex;
   flex-direction:column;
+`;
+
+export interface StyledTableProps{
+    width?:string;
+    textAlign?:'center'|'left'|'right';
+    height?:string;
+
+}
+export const StyledTd = styled.td<StyledTableProps>`
+  ${({ width }) => width && `${width}px`};
+  ${({ height }) => height && `${height}px`};
+
+  text-align: ${({ textAlign }) => textAlign && `${textAlign}`};
+  border: 1px solid ${({ theme }) => theme.borderColors.primaryColor};
+`;
+
+export const StyledTable = styled.table<StyledTableProps>`
+  ${({ height }) => height && `${height}px`};
+
+  border-collapse: collapse;
+  ${({ width }) => width && `${width}px`};
+  ${({ textAlign }) => textAlign && `${textAlign}`};
+  border: 1px solid ${({ theme }) => theme.borderColors.primaryColor};
+`;
+
+export const StyledTHead = styled.thead<StyledTableProps>`
+  ${({ width }) => width && `${width}px`};
+  ${({ height }) => height && `${height}px`};
+  background-color: ${({ theme }) => theme.bgColors.shadowColor};
+
+  ${({ textAlign }) => textAlign && `${textAlign}`};
+`;
+
+export const StyledTH = styled.th<StyledTableProps>`
+  ${({ height }) => height && `${height}px`};
+
+  border: 1px solid ${({ theme }) => theme.borderColors.primaryColor};
+  ${({ width }) => width && `${width}px`};
+  ${({ textAlign }) => textAlign && `${textAlign}`};
+`;
+
+export const StyledTRow = styled.tr<StyledTableProps>`
+  ${({ height }) => height && `${height}px`};
+
+  ${({ width }) => width && `${width}px`};
+  ${({ textAlign }) => textAlign && `${textAlign}`};
 `;
