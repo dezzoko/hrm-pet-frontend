@@ -3,12 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useId, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Course } from '../../model/types/course';
-import { Button, ButtonTheme, Input } from '@/shared/ui';
+import { Autocomplete, Button, Input } from '@/shared/ui';
 import { useUpdateCourseMutation } from '../../model/api/course.api';
+import { CourseCategory } from '@/entities/CourseCategory/model/types/courseCategory';
+import { useLazyFindCoursesCategoriesQuery } from '@/entities/CourseCategory';
 
 interface CourseCardProps {
     course: Course;
     onItemChange:(open:boolean)=>void
+    onClose:()=>void;
+    isApproveEditing?:boolean;
 }
 
 const StyledCard = styled.form`
@@ -32,10 +36,14 @@ type Inputs = {
     'name': string;
     'description': string;
     'additionalInfoUrl': string;
+    'courseCategory': CourseCategory;
+    'isApproved': boolean;
 }
 
 export function CourseCard(props: CourseCardProps) {
-    const { course, onItemChange } = props;
+    const {
+        course, onItemChange, onClose, isApproveEditing,
+    } = props;
 
     const {
         register,
@@ -48,6 +56,8 @@ export function CourseCard(props: CourseCardProps) {
 
     const [updateCourseMutation, { isSuccess, isLoading }] = useUpdateCourseMutation();
 
+    const [search, { data }] = useLazyFindCoursesCategoriesQuery();
+
     const onSubmit :SubmitHandler<Inputs> = (data) => {
         updateCourseMutation({ id: course.id, ...data });
     };
@@ -56,7 +66,9 @@ export function CourseCard(props: CourseCardProps) {
         setValue('name', course.name);
         setValue('description', course.description || '');
         setValue('additionalInfoUrl', course.additionalInfoUrl || '');
-    }, [course.additionalInfoUrl, course.description, course.name, setValue]);
+        setValue('isApproved', course.isApproved || false);
+    }, [course.additionalInfoUrl, course.description,
+        course.isApproved, course.name, setValue]);
 
     useEffect(() => {
         if (isSuccess) {
@@ -64,16 +76,45 @@ export function CourseCard(props: CourseCardProps) {
         }
     }, [isSuccess, onItemChange]);
 
+    const isApprovedElement = isEditing ? (
+        <>
+            <Title>Подтвержден?</Title>
+            <Input {...register('isApproved')} placeholder="Подтвержден" type="checkbox"></Input>
+            <Title>Кем подтверждён?</Title>
+            {course.isApproved ? (
+                <StyledValue>{course.approvedBy?.name}</StyledValue>
+            ) : (
+                <StyledValue>Не подтвержден</StyledValue>
+            )}
+        </>
+    ) : (
+        <>
+            <Title>Подтвержден?</Title>
+            {course.isApproved ? (
+                <FontAwesomeIcon color="green" icon={['fas', 'check']} />
+            ) : (
+                <FontAwesomeIcon color="red" icon={['fas', 'xmark']} />
+            )}
+            <Title>Кем подтверждён?</Title>
+            {course.isApproved ? (
+                <StyledValue>{course.approvedBy?.name}</StyledValue>
+            ) : (
+                <StyledValue>Не подтвержден</StyledValue>
+            )}
+        </>
+    );
     const idForm = useId();
     return (
         <>
             <div style={{
                 marginBottom: '20px',
+                gap: '20px',
             }}
             >
                 { !isEditing ? <Button onClick={() => setIsEditing(true)}>Редактировать</Button>
-                    : <Button onClick={() => setIsEditing(false)}>Закрыть</Button>}
+                    : <Button onClick={() => setIsEditing(false)}>Отменить</Button>}
                 {isEditing && <Button form={idForm} type="submit">Сохранить</Button>}
+                <Button onClick={() => onClose()}>Закрыть</Button>
             </div>
             <StyledCard id={idForm} onSubmit={handleSubmit(onSubmit)}>
                 <Title>Название курса:</Title>
@@ -104,12 +145,29 @@ export function CourseCard(props: CourseCardProps) {
 
                     )}
                 </div>
+                <Title>Категория</Title>
+                <div>
+                    {isEditing ? (
+                        <Autocomplete
+                            onSelect={(value:CourseCategory) => setValue('courseCategory', value)}
+                            search={search}
+                            searchResults={data || []}
+                            selectedValue={course.courseCategory}
+                            placeholder="Категория"
+                            {...register('courseCategory')}
+                        />
+                    ) : (
+                        <StyledValue>
+                            {course?.courseCategory?.name}
+                        </StyledValue>
+
+                    )}
+                </div>
 
                 <Title>Создал:</Title>
                 <StyledValue>
                     {course.user.name}
                 </StyledValue>
-
                 <Title>Ссылка:</Title>
                 <div>
                     {isEditing ? (
@@ -125,15 +183,25 @@ export function CourseCard(props: CourseCardProps) {
                     )}
                 </div>
 
-                <Title>Подтвержден?</Title>
-                {course.isApproved ? <FontAwesomeIcon color="green" icon={['fas', 'check']} />
-                    : <FontAwesomeIcon color="red" icon={['fas', 'xmark']} />}
-                <Title>Кем подтверждён?</Title>
-                {course.isApproved ? <StyledValue>{course.approvedBy?.name}</StyledValue>
-                    : <StyledValue>Не подтвержден</StyledValue>}
-
+                {isApproveEditing ? (
+                    isApprovedElement
+                ) : (
+                    <>
+                        <Title>Подтвержден?</Title>
+                        {course.isApproved ? (
+                            <FontAwesomeIcon color="green" icon={['fas', 'check']} />
+                        ) : (
+                            <FontAwesomeIcon color="red" icon={['fas', 'xmark']} />
+                        )}
+                        <Title>Кем подтверждён?</Title>
+                        {course.isApproved ? (
+                            <StyledValue>{course.approvedBy?.name}</StyledValue>
+                        ) : (
+                            <StyledValue>Не подтвержден</StyledValue>
+                        )}
+                    </>
+                )}
             </StyledCard>
         </>
-
     );
 }

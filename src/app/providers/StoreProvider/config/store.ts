@@ -8,6 +8,7 @@ import { userApi, userReducer } from '@/entities/User';
 import { authApi } from '@/features/UserAuth/model/api/auth.api';
 import { rtkQueryErrorLogger } from '@/shared/middlewares/error-toast.middleware';
 import { courseApi } from '@/entities/Courses';
+import { courseCategoryApi } from '@/entities/CourseCategory';
 
 export const store = configureStore({
     reducer: combineReducers({
@@ -15,11 +16,13 @@ export const store = configureStore({
         [authApi.reducerPath]: authApi.reducer,
         [userApi.reducerPath]: userApi.reducer,
         [courseApi.reducerPath]: courseApi.reducer,
+        [courseCategoryApi.reducerPath]: courseCategoryApi.reducer,
     }),
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([
         authApi.middleware,
         userApi.middleware,
         courseApi.middleware,
+        courseCategoryApi.middleware,
         rtkQueryErrorLogger,
     ]),
 });

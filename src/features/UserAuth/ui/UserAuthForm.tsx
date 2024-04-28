@@ -2,10 +2,14 @@ import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Input } from '@/shared/ui/Input';
 import { Title2, Typography, TypographyColors } from '@/shared/ui/micro-components/micro-components';
 import { useLoginMutation } from '../model/api/auth.api';
 import { Button } from '@/shared/ui';
+import { RoutePath } from '@/app/providers/router/config/route-config';
+import { useLazyGetMeQuery } from '@/entities/User';
+import { useAppSelector } from '@/app/providers/StoreProvider/config/store';
 
 const StyledForm = styled.form`
     display: flex;
@@ -44,7 +48,7 @@ export function UserAuthForm() {
         formState: { errors },
     } = useForm<Inputs>();
 
-    const [loginHandler] = useLoginMutation();
+    const [loginHandler, { data, isSuccess, isLoading }] = useLoginMutation();
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
         loginHandler({
@@ -52,6 +56,18 @@ export function UserAuthForm() {
             email: data.login,
         });
     };
+    const [getMe] = useLazyGetMeQuery();
+
+    const _inited = useAppSelector((state) => state.userReducer._inited);
+
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (isSuccess && _inited) {
+            getMe().unwrap().then((data) => {
+                navigate(RoutePath.profile + data.id);
+            });
+        }
+    }, [isSuccess, data, _inited, isLoading, navigate, getMe]);
 
     return (
         <StyledForm onSubmit={handleSubmit(onSubmit)}>

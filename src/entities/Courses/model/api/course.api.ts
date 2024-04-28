@@ -20,8 +20,22 @@ export const courseApi = createApi({
             query: (body) => ({ body, url: 'course/', method: 'PATCH' }),
             invalidatesTags: ['Course'],
         }),
+        createCourse: builder.mutation<Course, Partial<Course & {userId:number}>>({
+            query: (body) => ({ body, url: 'course/', method: 'POST' }),
+            invalidatesTags: ['Course'],
+        }),
+        getCourseApplications: builder.query<Paginated<Course>, number>({
+            query: (page = 1) => `teacher/course/?page=${page}`,
+            providesTags: ['Course'],
+        }),
 
     }),
 });
 
-export const { useGetMyCoursesQuery, useGetCourseByIdMutation, useUpdateCourseMutation } = courseApi;
+export const {
+    useGetMyCoursesQuery,
+    useGetCourseByIdMutation,
+    useUpdateCourseMutation,
+    useCreateCourseMutation,
+    useGetCourseApplicationsQuery,
+} = courseApi;

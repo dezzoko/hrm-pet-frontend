@@ -10,8 +10,16 @@ export const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => (next) =>
 
             return next(action);
         }
-        const { message } = action?.payload?.data as {message:string};
-        toast.warn(message);
+        console.log('ERROR', action.payload.data.message);
+
+        // eslint-disable-next-line no-unsafe-optional-chaining
+        const { message } = action?.payload?.data;
+
+        if (Array.isArray(message)) {
+            toast.warn(message.join(', '));
+        } else {
+            toast.warn(message);
+        }
     }
 
     return next(action);

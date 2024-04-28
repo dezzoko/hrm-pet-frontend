@@ -6,6 +6,8 @@ import { useAppSelector } from '@/app/providers/StoreProvider/config/store';
 import { RoutePath } from '@/app/providers/router/config/route-config';
 import { SidebarItem } from '../SidebarItem/SidebarItem';
 import { Button, ButtonSize, ButtonTheme } from '@/shared/ui';
+import { RolesEnum } from '@/shared/constants';
+import { Roles } from '@/entities/User/model/types/user';
 
 interface StyledSidebarProps {
     closed:boolean;
@@ -60,12 +62,23 @@ export function Sidebar() {
             path: RoutePath.settings,
             text: 'Settings',
         },
+        {
+            icon: ['fas', 'book'],
+            path: RoutePath.course_applications,
+            text: 'Course Applications',
+            roles: [RolesEnum.TEACHER],
+
+        },
     ];
     return (
         <>
             <StyledSidebar closed={closed}>
                 <StyledItems>
                     {sidebarItemList.map((item) => {
+                        if (item.roles && user?.roles
+                            && !item.roles.some((role) => user.roles.includes(role as unknown as Roles))) {
+                            return null;
+                        }
                         return (
                             <SidebarItem isClosed={closed} item={item} key={item.path}></SidebarItem>
                         );

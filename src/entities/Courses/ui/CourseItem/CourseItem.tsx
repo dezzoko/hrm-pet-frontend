@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
-import { useState } from 'react';
 import { Course } from '../../model/types/course';
 import { StyledTRow, StyledTd } from '@/shared/ui/micro-components/micro-components';
 
@@ -20,24 +19,24 @@ export function CourseItem(props: CourseItemProps) {
     const { course, onClick } = props;
 
     const onClickHandler = () => {
-        onClick(course.id);
+        onClick(course?.id);
     };
     return (
         <SelectableTrow onClick={onClickHandler} height="25px">
             <StyledTd width="33%">
-                {course.name}
+                {course?.name}
             </StyledTd>
             <StyledTd
                 width="33%"
                 textAlign="center"
             >
-                {course.courseCategory.name}
+                {course?.courseCategory?.name}
             </StyledTd>
             <StyledTd
                 width="33%"
                 textAlign="center"
             >
-                {course.isApproved ? <FontAwesomeIcon color="green" icon={['fas', 'check']} />
+                {course?.isApproved ? <FontAwesomeIcon color="green" icon={['fas', 'check']} />
                     : <FontAwesomeIcon color="red" icon={['fas', 'xmark']} />}
             </StyledTd>
 

@@ -6,9 +6,12 @@ import { useAppSelector } from '../../StoreProvider/config/store';
 export const RequireUnauth = ({ children }: { children: ReactNode }) => {
     const auth = useAppSelector((state) => state.userReducer.isAuth);
     const userId = useAppSelector((state) => state.userReducer.user?.id);
+
+    console.log(userId, 'userid');
+
     const location = useLocation();
     if (auth && userId) {
-        return <Navigate to={RoutePath.profile + userId} state={{ from: location }} replace />;
+        // return <Navigate to={RoutePath.profile + userId} state={{ from: location }} replace />;
     }
     return (
         children

@@ -5,6 +5,7 @@ import { User } from '../../model/types/user';
 import { UserProfileCard } from '../..';
 import { Typography, TypographyColors } from '@/shared/ui/micro-components/micro-components';
 import { CoursesList } from '@/entities/Courses/ui/CoursesList/CourseList';
+import { UserCourseList } from '../UserCourseList/ui/UserCourseList';
 
 interface UserProfileHeaderProps {
     user: User;
@@ -61,7 +62,7 @@ export function UserProfileHeader(props: UserProfileHeaderProps) {
                     <UserProfileCard user={user} />
                 </Tab.Panel>
                 <Tab.Panel>
-                    <CoursesList />
+                    <UserCourseList />
                 </Tab.Panel>
             </Tab.Panels>
         </Tab.Group>

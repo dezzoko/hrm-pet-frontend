@@ -87,6 +87,7 @@ export interface DropdownItem{
     props?:MenuItemProps<any>
     component:ReactNode;
     key:string;
+    onClick?:()=>void;
 }
 
 interface DropdownProps {
@@ -117,7 +118,7 @@ export function Dropdown(props: DropdownProps) {
                         <StyledMenuItems {...other} open={open}>
                             {
                                 dropdownItems?.map((item) => (
-                                    <StyledMenuItem key={item.key} {...item.props}>
+                                    <StyledMenuItem onClick={item?.onClick} key={item.key} {...item.props}>
                                         <MenuItemWrapper>
                                             {item.component}
                                         </MenuItemWrapper>

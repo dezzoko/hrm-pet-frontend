@@ -24,11 +24,22 @@ const AppRouter = () => {
                 />
             );
         }
-        const element = (
+
+        let element = (
             <PageLayout>
                 {route.element}
             </PageLayout>
         );
+
+        if (route.unAuthOnly) {
+            element = <RequireUnauth>{element}</RequireUnauth>;
+        }
+        if (route.authOnly) {
+            element = <RequireAuth>{element}</RequireAuth>;
+        }
+        if (route.roles) {
+            element = <RequireAuth roles={route.roles}>{element}</RequireAuth>;
+        }
 
         return (
             <Route

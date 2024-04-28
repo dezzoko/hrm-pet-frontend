@@ -6,3 +6,4 @@ export * from './Button/Button.styles';
 export * from './Avatar/Avatar';
 export * from './PaginationBar/PaginationBar';
 export * from './Modal/Modal';
+export * from './AutoComplete/Autocomplete';

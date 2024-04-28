@@ -6,8 +6,9 @@ import { Dropdown, DropdownItem } from '@/shared/ui';
 import { Title2 } from '@/shared/ui/micro-components/micro-components';
 import { ThemeSwitcher } from '@/features/ThemeSwitcher';
 import { LanguageSwitcher } from '@/features/LanguageSwitcher';
-import { useAppSelector } from '@/app/providers/StoreProvider/config/store';
+import { useAppDispatch, useAppSelector } from '@/app/providers/StoreProvider/config/store';
 import { RoutePath } from '@/app/providers/router/config/route-config';
+import { userActions } from '@/entities/User';
 
 const ItemContainer = styled.div`
     display: flex;
@@ -29,13 +30,20 @@ const MenuActions = styled.div`
 export function NavMenu() {
     const { t } = useTranslation();
 
-    const user = useAppSelector((state) => state.userReducer.user?.email);
+    const user = useAppSelector((state) => state.userReducer.user);
     const dropDownButton = (
         <Title2>
-            {user}
+            {user?.email}
         </Title2>
     );
     const navigate = useNavigate();
+
+    const dispatch = useAppDispatch();
+
+    const handleLogout = () => {
+        dispatch(userActions.logout());
+        navigate(RoutePath.main);
+    };
 
     const dropdownItems:DropdownItem[] = [
         {
@@ -81,6 +89,18 @@ export function NavMenu() {
                     <FontAwesomeIcon icon={['fas', 'gear']} />
                     <StyledText onClick={() => navigate(RoutePath.settings)}>
                         {t('accountSettings')}
+                    </StyledText>
+                </>
+            ),
+        },
+        {
+            key: 'logout',
+            onClick: handleLogout,
+            component: (
+                <>
+                    <FontAwesomeIcon icon={['fas', 'sign-out-alt']} />
+                    <StyledText>
+                        Выйти
                     </StyledText>
                 </>
             ),

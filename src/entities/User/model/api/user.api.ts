@@ -13,8 +13,8 @@ export const userApi = createApi({
             onQueryStarted: async (args, { dispatch, queryFulfilled }) => {
                 try {
                     const { data } = await queryFulfilled;
-                    dispatch(userActions.setUserData(data));
                     dispatch(userActions.setAuth(true));
+                    dispatch(userActions.setUserData(data));
                 } catch (error) {
                     dispatch(userActions.setAuth(false));
                     dispatch(userActions.setUserData(undefined));
@@ -29,4 +29,6 @@ export const userApi = createApi({
     }),
 });
 
-export const { useGetMeQuery, useGetUserQuery } = userApi;
+export const {
+    useGetMeQuery, useGetUserQuery, useLazyGetMeQuery, useLazyGetUserQuery,
+} = userApi;
