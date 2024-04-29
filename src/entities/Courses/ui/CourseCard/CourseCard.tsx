@@ -1,18 +1,20 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useId, useState } from 'react';
+import {
+    useCallback, useEffect, useId, useState,
+} from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Course } from '../../model/types/course';
 import { Autocomplete, Button, Input } from '@/shared/ui';
-import { useUpdateCourseMutation } from '../../model/api/course.api';
 import { CourseCategory } from '@/entities/CourseCategory/model/types/courseCategory';
 import { useLazyFindCoursesCategoriesQuery } from '@/entities/CourseCategory';
 
 interface CourseCardProps {
     course: Course;
-    onItemChange:(open:boolean)=>void
     onClose:()=>void;
+    isLoading:boolean;
     isApproveEditing?:boolean;
+    onSave:(course:Partial<Course>)=>void;
 }
 
 const StyledCard = styled.form`
@@ -42,7 +44,7 @@ type Inputs = {
 
 export function CourseCard(props: CourseCardProps) {
     const {
-        course, onItemChange, onClose, isApproveEditing,
+        course, onSave, onClose, isApproveEditing, isLoading,
     } = props;
 
     const {
@@ -54,46 +56,44 @@ export function CourseCard(props: CourseCardProps) {
 
     const [isEditing, setIsEditing] = useState(false);
 
-    const [updateCourseMutation, { isSuccess, isLoading }] = useUpdateCourseMutation();
-
     const [search, { data }] = useLazyFindCoursesCategoriesQuery();
 
     const onSubmit :SubmitHandler<Inputs> = (data) => {
-        updateCourseMutation({ id: course.id, ...data });
+        onSave({ id: course.id, ...data });
     };
 
     useEffect(() => {
-        setValue('name', course.name);
-        setValue('description', course.description || '');
-        setValue('additionalInfoUrl', course.additionalInfoUrl || '');
-        setValue('isApproved', course.isApproved || false);
+        setValue('name', course?.name);
+        setValue('description', course?.description || '');
+        setValue('additionalInfoUrl', course?.additionalInfoUrl || '');
+        setValue('isApproved', course?.isApproved || false);
     }, [course.additionalInfoUrl, course.description,
         course.isApproved, course.name, setValue]);
-
-    useEffect(() => {
-        if (isSuccess) {
-            onItemChange(false);
-        }
-    }, [isSuccess, onItemChange]);
-
-    const isApprovedElement = isEditing ? (
-        <>
-            <Title>Подтвержден?</Title>
-            <Input {...register('isApproved')} placeholder="Подтвержден" type="checkbox"></Input>
-            <Title>Кем подтверждён?</Title>
-            {course.isApproved ? (
-                <StyledValue>{course.approvedBy?.name}</StyledValue>
-            ) : (
-                <StyledValue>Не подтвержден</StyledValue>
-            )}
-        </>
+    const idForm = useId();
+    const IsApprovedIconElement = useCallback(() => (course.isApproved ? (
+        <FontAwesomeIcon color="green" icon={['fas', 'check']} />
     ) : (
+        <FontAwesomeIcon color="red" icon={['fas', 'times']} />
+    )), [course.isApproved]);
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    const isApprovedElement = (isEditing:boolean) => (
         <>
             <Title>Подтвержден?</Title>
-            {course.isApproved ? (
-                <FontAwesomeIcon color="green" icon={['fas', 'check']} />
+            {isEditing ? (
+                <Input
+                    style={{
+                        width: '20px',
+                    }}
+                    checkBox
+                    {...register('isApproved')}
+                    placeholder="Подтвержден"
+                    type="checkbox"
+                />
             ) : (
-                <FontAwesomeIcon color="red" icon={['fas', 'xmark']} />
+                <IsApprovedIconElement />
             )}
             <Title>Кем подтверждён?</Title>
             {course.isApproved ? (
@@ -103,7 +103,6 @@ export function CourseCard(props: CourseCardProps) {
             )}
         </>
     );
-    const idForm = useId();
     return (
         <>
             <div style={{
@@ -182,25 +181,8 @@ export function CourseCard(props: CourseCardProps) {
 
                     )}
                 </div>
+                {isApprovedElement(isApproveEditing ? isEditing : false)}
 
-                {isApproveEditing ? (
-                    isApprovedElement
-                ) : (
-                    <>
-                        <Title>Подтвержден?</Title>
-                        {course.isApproved ? (
-                            <FontAwesomeIcon color="green" icon={['fas', 'check']} />
-                        ) : (
-                            <FontAwesomeIcon color="red" icon={['fas', 'xmark']} />
-                        )}
-                        <Title>Кем подтверждён?</Title>
-                        {course.isApproved ? (
-                            <StyledValue>{course.approvedBy?.name}</StyledValue>
-                        ) : (
-                            <StyledValue>Не подтвержден</StyledValue>
-                        )}
-                    </>
-                )}
             </StyledCard>
         </>
     );

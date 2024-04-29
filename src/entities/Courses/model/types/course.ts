@@ -9,8 +9,9 @@ export interface Course{
     description?:string;
     user:User;
     approvedBy?:User;
-    createdAt:string;
-    updatedAt:string;
+    created_at:string;
+    updated_at:string;
+    approvedAt:string;
     isApproved:boolean;
     additionalInfoUrl:string;
 

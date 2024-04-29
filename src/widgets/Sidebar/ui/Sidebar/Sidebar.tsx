@@ -2,12 +2,13 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SidebarItemType } from '../../model/types/sidebar';
-import { useAppSelector } from '@/app/providers/StoreProvider/config/store';
+import { useAppDispatch, useAppSelector } from '@/app/providers/StoreProvider/config/store';
 import { RoutePath } from '@/app/providers/router/config/route-config';
 import { SidebarItem } from '../SidebarItem/SidebarItem';
 import { Button, ButtonSize, ButtonTheme } from '@/shared/ui';
 import { RolesEnum } from '@/shared/constants';
 import { Roles } from '@/entities/User/model/types/user';
+import { sidebarActions } from '../../model/slice/sidebar.slice';
 
 interface StyledSidebarProps {
     closed:boolean;
@@ -42,14 +43,20 @@ const StyledItems = styled.div`
     margin: 10px;
     row-gap:10px;
 `;
+
 const RotatableIcon = styled(FontAwesomeIcon)<{$isactive:boolean}>`
   transform: rotate(${(props) => (props.$isactive ? '0deg' : '180deg')});
   transition:0.3s;
 `;
 
 export function Sidebar() {
-    const [closed, setClosed] = useState(true);
+    const isOpen = useAppSelector((state) => state.sidebarReducer.isOpen);
+    const dispatch = useAppDispatch();
+    const selectedText = useAppSelector((state) => state.sidebarReducer.selectedItem);
     const user = useAppSelector((state) => state.userReducer.user);
+    const onClickHandler = (text:string) => {
+        dispatch(sidebarActions.setItem(text));
+    };
     const sidebarItemList:SidebarItemType[] = [
         {
             icon: ['fas', 'home'],
@@ -72,7 +79,7 @@ export function Sidebar() {
     ];
     return (
         <>
-            <StyledSidebar closed={closed}>
+            <StyledSidebar closed={isOpen!}>
                 <StyledItems>
                     {sidebarItemList.map((item) => {
                         if (item.roles && user?.roles
@@ -80,20 +87,27 @@ export function Sidebar() {
                             return null;
                         }
                         return (
-                            <SidebarItem isClosed={closed} item={item} key={item.path}></SidebarItem>
+                            <SidebarItem
+                                selected={item.text === selectedText}
+                                onClick={onClickHandler}
+                                isClosed={isOpen!}
+                                item={item}
+                                key={item.path}
+                            >
+                            </SidebarItem>
                         );
                     })}
                 </StyledItems>
             </StyledSidebar>
             <StyledCollapseButton
                 type="button"
-                closed={closed}
+                closed={isOpen!}
                 size={ButtonSize.L}
-                onClick={() => setClosed(!closed)}
+                onClick={() => dispatch(sidebarActions.setOpen(!isOpen))}
                 round
                 buttonTheme={ButtonTheme.OUTLINE}
             >
-                <RotatableIcon $isactive={closed} icon={['fas', 'arrow-right']} />
+                <RotatableIcon $isactive={isOpen!} icon={['fas', 'arrow-right']} />
             </StyledCollapseButton>
         </>
     );

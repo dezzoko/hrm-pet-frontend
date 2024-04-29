@@ -67,6 +67,7 @@ export const routeConfig: Record<AppRoutes, AppRouteProps> = {
     [AppRoutes.NOT_WORKING]: {
         path: RoutePath.not_working,
         outsideLayout: true,
+        unAuthOnly: true,
         element: <NotWorkingPage />,
     },
     [AppRoutes.COURSE_APPLICATIONS]: {

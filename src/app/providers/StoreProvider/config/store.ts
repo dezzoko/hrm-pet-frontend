@@ -9,10 +9,12 @@ import { authApi } from '@/features/UserAuth/model/api/auth.api';
 import { rtkQueryErrorLogger } from '@/shared/middlewares/error-toast.middleware';
 import { courseApi } from '@/entities/Courses';
 import { courseCategoryApi } from '@/entities/CourseCategory';
+import { sidebarReducer } from '@/widgets/Sidebar';
 
 export const store = configureStore({
     reducer: combineReducers({
         userReducer,
+        sidebarReducer,
         [authApi.reducerPath]: authApi.reducer,
         [userApi.reducerPath]: userApi.reducer,
         [courseApi.reducerPath]: courseApi.reducer,

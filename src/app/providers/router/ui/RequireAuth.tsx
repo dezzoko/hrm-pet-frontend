@@ -7,7 +7,6 @@ import { RolesEnum } from '@/shared/constants';
 export const RequireAuth = ({ children, roles }: { children: ReactNode, roles?:RolesEnum[] }) => {
     const auth = useAppSelector((state) => state.userReducer.isAuth);
     const userRoles = useAppSelector((state) => state.userReducer.user?.roles) as RolesEnum[] | undefined;
-    console.log('here');
 
     const location = useLocation();
 

@@ -8,6 +8,9 @@ interface CoursesListProps {
     data?: Course[];
     isLoading: boolean;
 
+    showDateCreated?: boolean;
+    showDateUpdated?: boolean;
+    showCreator?: boolean;
     handlePageChange:(page:number)=>void;
     currentPage:number;
     totalPages?:number;
@@ -22,6 +25,7 @@ export function CoursesList(props: CoursesListProps) {
     const {
         data, isLoading, onCourseSelected, totalPages,
         handlePageChange, currentPage,
+        showCreator, showDateCreated, showDateUpdated,
     } = props;
 
     if (isLoading) {
@@ -35,17 +39,29 @@ export function CoursesList(props: CoursesListProps) {
     return (
         <>
 
-            <StyledTable width="100%" textAlign="left">
+            <StyledTable width="100%">
                 <StyledTHead height="30px" textAlign="center">
                     <tr>
                         <StyledTH>Название</StyledTH>
                         <StyledTH>Категория</StyledTH>
+                        {showCreator && <StyledTH>Создатель</StyledTH>}
+                        {showDateCreated && <StyledTH>Дата создания</StyledTH>}
+                        {showDateUpdated && <StyledTH>Дата обновления</StyledTH>}
                         <StyledTH>Подтвержден</StyledTH>
+                        {data?.find((item) => item.isApproved) && <StyledTH>Дата подтверждения</StyledTH>}
                     </tr>
                 </StyledTHead>
                 <tbody>
                     {data?.map((course) => (
-                        <CourseItem onClick={onSelect} key={course.id} course={course}></CourseItem>
+                        <CourseItem
+                            showCreator={showCreator}
+                            showDateCreated={showDateCreated}
+                            showDateUpdated={showDateUpdated}
+                            onClick={onSelect}
+                            key={course.id}
+                            course={course}
+                        >
+                        </CourseItem>
                     ))}
                 </tbody>
             </StyledTable>

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Input } from '@/shared/ui/Input';
+import { Input, LabelTheme } from '@/shared/ui/Input';
 import { Title2, Typography, TypographyColors } from '@/shared/ui/micro-components/micro-components';
 import { useLoginMutation } from '../model/api/auth.api';
 import { Button } from '@/shared/ui';
@@ -17,7 +17,6 @@ const StyledForm = styled.form`
     gap: 1rem;
     align-items: center;
     box-shadow: 0px 0px 4px 2px rgba(0,0,0,0.75);
-
     border-radius:${({ theme }) => theme.sizes.borderRadius.medium}px;
     height:400px;
     width:500px;
@@ -44,7 +43,6 @@ export function UserAuthForm() {
     const {
         register,
         handleSubmit,
-        setValue,
         formState: { errors },
     } = useForm<Inputs>();
 
@@ -76,6 +74,7 @@ export function UserAuthForm() {
             </Title2>
             <InputContainer>
                 <Input
+                    labelTheme={LabelTheme.LABEL_TOP}
                     label={t('username')}
                     placeholder="Login"
                     {...register('login', { required: true })}
@@ -87,6 +86,7 @@ export function UserAuthForm() {
                 )}
 
                 <Input
+                    labelTheme={LabelTheme.LABEL_TOP}
                     label={t('password')}
                     placeholder="Password"
                     type="password"

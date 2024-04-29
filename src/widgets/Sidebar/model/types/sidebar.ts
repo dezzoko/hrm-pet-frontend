@@ -8,3 +8,8 @@ export interface SidebarItemType {
     authOnly?: boolean;
     roles?: RolesEnum[];
 }
+
+export interface SidebarSchema {
+    isOpen?: boolean;
+    selectedItem?: string;
+}
