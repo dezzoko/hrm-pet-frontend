@@ -35,12 +35,21 @@ export function UserCourseList() {
 
     const onItemSaved = (item:Partial<Course> & {courseCategoryId:number}) => {
         setIsCreateModalOpen(false);
-        createCourseMutation({ userId: userId!, ...item });
+
+        createCourseMutation({
+            userId: userId!,
+            ...item,
+        });
     };
 
     const onItemSave = (course:Partial<Course>) => {
         setIsOpen(false);
-        updateCourse(course);
+
+        updateCourse({
+            ...course,
+            courseCategory:
+            course.courseCategory && Number.isNaN(+course.courseCategory) ? undefined : course.courseCategory,
+        });
     };
     const onItemSelect = (courseId:number) => {
         courseMutation(courseId).unwrap().then(() => {

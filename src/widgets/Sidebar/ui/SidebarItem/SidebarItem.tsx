@@ -26,7 +26,6 @@ export function SidebarItem(props: SidebarItemProps) {
     const {
         item, isClosed, onClick, selected,
     } = props;
-    console.log(selected);
 
     return (
         <StyledLink selected={selected} onClick={() => onClick(item.text)} $isclosed={isClosed} to={item.path}>

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { format } from 'date-fns';
 import { Course } from '../../model/types/course';
 import { StyledTRow, StyledTd } from '@/shared/ui/micro-components/micro-components';
+import { StyledCell, StyledRow } from '../CoursesList/CourseList';
 
 interface CourseItemProps {
     course:Course;
@@ -10,69 +11,52 @@ interface CourseItemProps {
     showDateCreated?: boolean;
     showDateUpdated?: boolean;
     showCreator?: boolean;
+    showDateApproved?:boolean;
 }
 
-const SelectableTrow = styled(StyledTRow)`
-&:hover {
-    cursor: pointer;
-    opacity: 0.7;
-}
-
-`;
 export function CourseItem(props: CourseItemProps) {
     const {
         course, onClick, showCreator, showDateCreated, showDateUpdated,
+        showDateApproved,
     } = props;
 
     const onClickHandler = () => {
         onClick(course?.id);
     };
     return (
-        <SelectableTrow onClick={onClickHandler} height="25px">
-            <StyledTd>
+        <StyledRow className="selectable" onClick={onClickHandler}>
+            <StyledCell>
                 {course?.name}
-            </StyledTd>
-            <StyledTd
-                textAlign="center"
-            >
+            </StyledCell>
+            <StyledCell>
                 {course?.courseCategory?.name}
-            </StyledTd>
+            </StyledCell>
             {showCreator && (
-                <StyledTd
-                    textAlign="center"
-                >
+                <StyledCell>
                     {course?.user?.email}
-                </StyledTd>
+                </StyledCell>
             )}
             {showDateCreated && (
-                <StyledTd
-                    textAlign="center"
-                >
+                <StyledCell className="small">
                     {course.created_at && format(new Date(course.created_at), 'dd.MM.yyyy')}
-                </StyledTd>
+                </StyledCell>
             )}
 
             {showDateUpdated && (
-                <StyledTd
-                    textAlign="center"
-                >
+                <StyledCell className="small">
                     {course?.updated_at && format(new Date(course?.updated_at), 'dd.MM.yyyy')}
-                </StyledTd>
+                </StyledCell>
             )}
-            <StyledTd
-                textAlign="center"
-            >
+            <StyledCell className="small">
                 {course?.isApproved ? <FontAwesomeIcon color="green" icon={['fas', 'check']} />
                     : <FontAwesomeIcon color="red" icon={['fas', 'xmark']} />}
-            </StyledTd>
-            {course.approvedAt && (
-                <StyledTd
-                    textAlign="center"
-                >
-                    {format(new Date(course.approvedAt), 'dd.MM.yyyy')}
-                </StyledTd>
+            </StyledCell>
+            {showDateApproved && (
+                <StyledCell>
+                    {course.approvedAt && format(new Date(course.approvedAt), 'dd.MM.yyyy')}
+                </StyledCell>
             )}
 
-        </SelectableTrow>
+        </StyledRow>
     );
 }

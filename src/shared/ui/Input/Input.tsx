@@ -40,6 +40,8 @@ font-size: 0.90rem;
 `;
 const InputContainer = styled.div`
   position: relative;
+  width: 100%;
+
   display:flex;
   align-items: center;
   ${StyledInput}:focus + ${FocusBorder} {

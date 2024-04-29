@@ -5,6 +5,8 @@ import { Title1 } from '@/shared/ui';
 import { NavMenu } from '@/features/NavMenu';
 
 const StyledNavbar = styled.nav`
+    position:relative;
+    z-index: 1000;
     height: ${({ theme }) => theme.sizes.header.height}px;
     background-color:${({ theme }) => theme.bgColors.primaryColor};
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.03);
