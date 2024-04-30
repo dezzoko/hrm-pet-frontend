@@ -33,6 +33,9 @@ export interface StyledTheme{
     },
     bgColors:{
         primaryColor:string;
+        page:string;
+        rowHeaderColor:string;
+        selected:string;
         secondaryColor:string;
         shadowColor:string;
     },

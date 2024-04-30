@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { CourseSchema } from '../types/course';
 
 const initialState: CourseSchema = {

@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import styled from 'styled-components';
 import { Navbar } from '@/widgets/Navbar';
 import { Sidebar } from '@/widgets/Sidebar';
+import { Footer } from '@/widgets/Footer';
 
 interface PageLayoutProps {
     children: ReactNode;
@@ -9,12 +10,16 @@ interface PageLayoutProps {
 
 const StyledPageLayout = styled.div`
     display: flex;
+    
     max-height: calc(100vh - ${({ theme }) => theme.sizes.header.height}px);
     `;
 const StyledPageWrapper = styled.div`
-    border-radius: 5px;
+    display:flex;
+    flex-direction: column;
     padding:15px;
+    color: ${({ theme }) => theme.colors.primaryColor};
     width:100%;
+    background-color: ${({ theme }) => theme.bgColors.primaryColor};
     overflow-y: auto;
     min-height: calc(100vh - ${({ theme }) => theme.sizes.header.height}px);
     
@@ -38,7 +43,9 @@ export function PageLayout({ children }:PageLayoutProps) {
                     <StyledPageInner>
                         {children}
                     </StyledPageInner>
+                    <Footer />
                 </StyledPageWrapper>
+
             </StyledPageLayout>
         </>
     );

@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '@/app/providers/StoreProvider/config/store';
 import {
     useCreateCourseMutation, useGetCourseByIdMutation, useGetMyCoursesQuery, useUpdateCourseMutation,
@@ -8,9 +10,16 @@ import { CourseCard } from '@/entities/Courses/ui/CourseCard/CourseCard';
 import { CoursesList } from '@/entities/Courses/ui/CoursesList/CourseList';
 import { CreateCourseCard } from '@/entities/Courses/ui/CreateCourseCard/CreateCourseCard';
 import { Button, Modal } from '@/shared/ui';
+import { Typography } from '@/shared/ui/micro-components/micro-components';
 
+const StyledWrapperModal = styled.div`
+    background-color: ${({ theme }) => theme.bgColors.primaryColor} !important;
+    color: ${({ theme }) => theme.colors.primaryColor} ;
+    
+`;
 export function UserCourseList() {
     const userId = useAppSelector((state) => state.userReducer.user?.id);
+    const { t } = useTranslation();
     const [courseMutation, { data: course, isLoading: isCourseLoading }] = useGetCourseByIdMutation();
     const [createCourseMutation, { isLoading: isCourseCreateLoading }] = useCreateCourseMutation();
 
@@ -26,7 +35,7 @@ export function UserCourseList() {
     };
 
     const {
-        data, isLoading, error,
+        data, isLoading,
     } = useGetMyCoursesQuery(currentPage);
 
     const closeCreateModal = () => {
@@ -60,24 +69,19 @@ export function UserCourseList() {
     return (
         <>
             <Modal isOpen={isCreateModalOpen} setClose={closeCreateModal}>
-                <div style={{
-                    padding: '',
-                    // width: '200px',
-                    background: 'white',
-                }}
-                >
+                <StyledWrapperModal>
                     <CreateCourseCard onClose={() => setIsCreateModalOpen(false)} onItemSaved={onItemSaved} />
-                </div>
+                </StyledWrapperModal>
             </Modal>
 
             <Modal isOpen={isOpen} setClose={closeModal}>
-                <div style={{
-                    padding: '',
-                    // width: '200px',
-                    background: 'white',
-                }}
-                >
-                    {isCourseLoading ? 'Loading...' : (
+                <StyledWrapperModal>
+
+                    {isCourseLoading ? (
+                        <Typography>
+                            {t('loading')}
+                        </Typography>
+                    ) : (
                         <CourseCard
                             isLoading={isCourseLoading}
                             onSave={onItemSave}
@@ -85,7 +89,7 @@ export function UserCourseList() {
                             course={course!}
                         />
                     )}
-                </div>
+                </StyledWrapperModal>
             </Modal>
 
             <CoursesList
@@ -97,7 +101,7 @@ export function UserCourseList() {
                 handlePageChange={(page) => setCurrentPage(page)}
 
             />
-            <Button onClick={() => { setIsCreateModalOpen(true); }}>Добавить</Button>
+            <Button onClick={() => { setIsCreateModalOpen(true); }}>{t('add')}</Button>
 
         </>
     );

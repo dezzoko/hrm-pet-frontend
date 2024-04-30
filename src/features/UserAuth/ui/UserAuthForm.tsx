@@ -15,13 +15,14 @@ const StyledForm = styled.form`
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    color: ${({ theme }) => theme.colors.primaryColor};
+    background-color: ${({ theme }) => theme.bgColors.primaryColor};
     align-items: center;
     box-shadow: 0px 0px 4px 2px rgba(0,0,0,0.75);
     border-radius:${({ theme }) => theme.sizes.borderRadius.medium}px;
     height:400px;
     width:500px;
     padding: 40px 60px;
-    background-color:transparent;
 `;
 
 const InputContainer = styled.div`
@@ -76,7 +77,7 @@ export function UserAuthForm() {
                 <Input
                     labelTheme={LabelTheme.LABEL_TOP}
                     label={t('username')}
-                    placeholder="Login"
+                    placeholder={t('login')}
                     {...register('login', { required: true })}
                 />
                 {errors.login && (
@@ -88,7 +89,7 @@ export function UserAuthForm() {
                 <Input
                     labelTheme={LabelTheme.LABEL_TOP}
                     label={t('password')}
-                    placeholder="Password"
+                    placeholder={t('password')}
                     type="password"
                     {...register('password', { required: true })}
                 />

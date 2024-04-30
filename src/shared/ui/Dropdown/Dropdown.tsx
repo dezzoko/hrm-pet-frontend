@@ -1,9 +1,8 @@
 /* eslint-disable i18next/no-literal-string */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Menu, MenuItemProps, Switch } from '@headlessui/react';
+import { Menu, MenuItemProps } from '@headlessui/react';
 import styled, { keyframes } from 'styled-components';
-import React, { ReactNode, useState } from 'react';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { ReactNode } from 'react';
 
 const enterAnimation = keyframes`
   from {
@@ -40,7 +39,6 @@ const StyledMenuItems = styled(Menu.Items)<{open:boolean, right?:number, left?:n
     display: flex;
     position:absolute;
     justify-content:center;
-    background-color:white;
     width:250px;
     border:1px black solid;
     right:${({ right }) => `${right}px` || '0'};
@@ -66,6 +64,7 @@ const StyledMenuItem = styled(Menu.Item)`
     word-wrap:break-word;
 `;
 const RotatableIcon = styled(FontAwesomeIcon)<{$isactive:boolean}>`
+  color:${({ theme }) => theme.colors.primaryColor};
   transform: rotate(${(props) => (props.$isactive ? '180deg' : '0deg')});
   transition:0.3s;
 `;
@@ -76,6 +75,8 @@ const MenuItemWrapper = styled.div`
     display:flex;
     column-gap:5px;
     padding:10px;
+    color:${({ theme }) => theme.colors.primaryColor};
+    background-color: ${({ theme }) => theme.bgColors.primaryColor};
     align-items:center;
     &:hover {
         background-color:${({ theme }) => theme.bgColors.shadowColor};

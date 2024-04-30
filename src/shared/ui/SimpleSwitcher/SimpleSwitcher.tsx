@@ -3,10 +3,10 @@ import styled from 'styled-components';
 
 const StyledSimpleSwitcher = styled.div`
     display: flex;
-    background-color:white;
     border-radius:10px;
     justify-content:center;
     border:1px black solid;
+    color:${({ theme }) => theme.colors.primaryColor};
     text-align: center;
     overflow: hidden;
 `;
@@ -17,11 +17,10 @@ const Divider = styled.div`
 `;
 
 const StyledWrapperSwitcher = styled.div<{$isactive:boolean}>`
-transition:0.5s;
+    transition:0.5s;
     padding:5px;
     width:40px;
-
-    background-color:${({ $isactive }) => ($isactive ? 'gray' : 'white')};
+    background-color:${({ $isactive, theme }) => ($isactive ? theme.colors.logoColor : theme.bgColors.primaryColor)};
 `;
 
 interface SimpleSwitcherProps {

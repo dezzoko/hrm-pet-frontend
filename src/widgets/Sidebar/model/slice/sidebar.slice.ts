@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SidebarSchema } from '../types/sidebar';
 
 const initialState: SidebarSchema = {
-    isOpen: false,
+    isOpen: true,
 };
 
 export const sidebarSlice = createSlice({
@@ -12,8 +12,8 @@ export const sidebarSlice = createSlice({
         setOpen(state, action: PayloadAction<boolean>) {
             state.isOpen = action.payload;
         },
-        setItem(state, action: PayloadAction<string>) {
-            state.selectedItem = action.payload;
+        setPath(state, action: PayloadAction<string>) {
+            state.selectedPath = action.payload;
         },
     },
 });

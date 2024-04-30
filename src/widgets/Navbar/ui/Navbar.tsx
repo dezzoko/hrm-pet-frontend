@@ -9,7 +9,7 @@ const StyledNavbar = styled.nav`
     z-index: 1000;
     height: ${({ theme }) => theme.sizes.header.height}px;
     background-color:${({ theme }) => theme.bgColors.primaryColor};
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
 `;
 
 const WrapperNavbar = styled.div`

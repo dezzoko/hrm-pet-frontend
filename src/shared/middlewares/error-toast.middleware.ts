@@ -1,9 +1,9 @@
 import { isRejectedWithValue } from '@reduxjs/toolkit';
-import type { MiddlewareAPI, Middleware } from '@reduxjs/toolkit';
+import type { Middleware } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => (next) => (action:any) => {
+export const rtkQueryErrorLogger: Middleware = () => (next) => (action:any) => {
     if (isRejectedWithValue(action)) {
         if (action.payload.status === 'FETCH_ERROR') {
             toast.error('Failed to fetch data');

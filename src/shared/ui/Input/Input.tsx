@@ -13,10 +13,14 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const StyledInput = styled.input`
   border: 0;
+  color:${({ theme }) => theme.colors.primaryColor};
+  ::placeholder{
+      color:${({ theme }) => theme.colors.primaryColor};
+  }
+  background-color:${({ theme }) => theme.bgColors.primaryColor};
   width: 100%;
   padding: 7px 0;
   border-bottom: 1px solid #ccc;
-  color:black;
 `;
 
 const FocusBorder = styled.span<{ checkBox?: boolean }>`
@@ -41,7 +45,6 @@ font-size: 0.90rem;
 const InputContainer = styled.div`
   position: relative;
   width: 100%;
-
   display:flex;
   align-items: center;
   ${StyledInput}:focus + ${FocusBorder} {
@@ -59,7 +62,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref)
                 { label }
             </label>
             <InputContainer>
-                <StyledInput id={inputId} className="effect-1" type="text" {...other} ref={ref} />
+                <StyledInput
+                    id={inputId}
+                    className="effect-1"
+                    type="text"
+                    {...other}
+                    ref={ref}
+                />
                 <FocusBorder checkBox={checkBox} className="focus-border" />
             </InputContainer>
         </StyledWrapper>

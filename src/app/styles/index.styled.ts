@@ -19,9 +19,6 @@ export default createGlobalStyle`
   *::after {
     box-sizing: border-box;
   }
-  div button {
-  transition-duration: 0.2s;
-  }
 
  
 

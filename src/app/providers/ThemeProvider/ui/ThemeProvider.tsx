@@ -2,7 +2,7 @@ import { ReactNode, useMemo, useState } from 'react';
 import { ThemeProvider as ThemeProviderSC } from 'styled-components';
 import { LOCAL_STORAGE_THEME_KEY, ThemeContext } from '../lib/ThemeContext';
 import { Theme } from '@/app/types/styled.types';
-import { findDefaultTheme, findTheme } from '../lib/findTheme';
+import { findDefaultTheme } from '../lib/findTheme';
 
 interface ThemeProviderProps {
     children:ReactNode

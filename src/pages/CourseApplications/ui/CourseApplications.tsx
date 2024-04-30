@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import styled from 'styled-components';
 import {
     SearchParams, useApproveCourseMutation, useGetCourseApplicationsQuery, useGetCourseByIdMutation,
 } from '@/entities/Courses';
@@ -8,6 +9,11 @@ import { CourseCard } from '@/entities/Courses/ui/CourseCard/CourseCard';
 import { Course } from '@/entities/Courses/model/types/course';
 import { FindSortAndFilterCourses, SortFilterCoursesInputs } from '@/features/FindSortAndFilterCourses';
 
+const StyledWrapperModal = styled.div`
+    background-color: ${({ theme }) => theme.bgColors.primaryColor} !important;
+    color: ${({ theme }) => theme.colors.primaryColor} ;
+    
+`;
 export function CourseApplications() {
     const [currentPage, setCurrentPage] = useState(1);
     const handlePageChange = (page: number) => {
@@ -50,12 +56,7 @@ export function CourseApplications() {
     return (
         <div>
             <Modal isOpen={isOpenCourse} setClose={closeModal}>
-                <div style={{
-                    padding: '',
-                    // width: '200px',
-                    background: 'white',
-                }}
-                >
+                <StyledWrapperModal>
                     {isCourseLoading ? 'Loading...' : (
                         <CourseCard
                             isApproveEditing
@@ -65,7 +66,7 @@ export function CourseApplications() {
                             course={course!}
                         />
                     )}
-                </div>
+                </StyledWrapperModal>
             </Modal>
             <FindSortAndFilterCourses onSubmitInfo={onFilterApply} />
             <CoursesList

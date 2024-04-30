@@ -100,7 +100,7 @@ export function NavMenu() {
                 <>
                     <FontAwesomeIcon icon={['fas', 'sign-out-alt']} />
                     <StyledText>
-                        Выйти
+                        {t('logout')}
                     </StyledText>
                 </>
             ),

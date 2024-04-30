@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CourseItem } from '../CourseItem/CourseItem';
 import { PaginationBar } from '@/shared/ui';
 import { Course } from '../../model/types/course';
@@ -17,12 +18,15 @@ export const StyledRow = styled.div`
 
     &.header{
     font-weight: bold;
-    background-color: #f2f2f2;
+    background-color:${({ theme }) => theme.bgColors.rowHeaderColor};
     }
 
     &.selectable{
+        &:hover{
         cursor: pointer;
         opacity: 0.7;
+        
+    }
     }
 `;
 
@@ -64,10 +68,16 @@ export function CoursesList(props: CoursesListProps) {
         showCreator, showDateCreated, showDateUpdated,
     } = props;
 
+    const { t } = useTranslation();
     const showDateApproved = useMemo(() => !!data?.find((item) => item.isApproved), [data]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div>
+                {t('loading')}
+                ...
+            </div>
+        );
     }
 
     const onSelect = (courseId:number) => {
@@ -79,13 +89,13 @@ export function CoursesList(props: CoursesListProps) {
 
             <StyledTable>
                 <StyledRow className="header">
-                    <StyledCell>Название</StyledCell>
-                    <StyledCell>Категория</StyledCell>
-                    {showCreator && <StyledCell>Создатель</StyledCell>}
-                    {showDateCreated && <StyledCell className="small">Дата создания</StyledCell>}
-                    {showDateUpdated && <StyledCell className="small">Дата обновления</StyledCell>}
-                    <StyledCell className="small">Подтвержден</StyledCell>
-                    {showDateApproved && <StyledCell>Дата подтверждения</StyledCell>}
+                    <StyledCell>{t('name')}</StyledCell>
+                    <StyledCell>{t('category')}</StyledCell>
+                    {showCreator && <StyledCell>{t('creator')}</StyledCell>}
+                    {showDateCreated && <StyledCell className="small">{t('date_created')}</StyledCell>}
+                    {showDateUpdated && <StyledCell className="small">{t('date_updated')}</StyledCell>}
+                    <StyledCell className="small">{t('approved')}</StyledCell>
+                    {showDateApproved && <StyledCell>{t('date_approved')}</StyledCell>}
                 </StyledRow>
                 {data?.map((course) => (
                     <CourseItem

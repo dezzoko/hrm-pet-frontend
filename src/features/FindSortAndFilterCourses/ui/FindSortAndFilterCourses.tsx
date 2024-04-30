@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { Button, Input } from '@/shared/ui';
 import { CategoryAutocomplete } from '@/features/CategoryAutocomplete';
 import { CourseCategory } from '@/entities/CourseCategory/model/types/courseCategory';
@@ -40,6 +41,7 @@ export function FindSortAndFilterCourses(props: FindSortAndFilterCoursesProps) {
         register, handleSubmit, setValue, watch,
     } = useForm<SortFilterCoursesInputs>();
 
+    const { t } = useTranslation();
     const [isSubmitted, setSubmitted] = useState(false);
     const [isShowSubmit, setShowSubmit] = useState(false);
     const onSelectCategory = (value:CourseCategory) => {
@@ -69,7 +71,7 @@ export function FindSortAndFilterCourses(props: FindSortAndFilterCoursesProps) {
 
             <StyledContainer>
                 <SearchContainer>
-                    <Input {...register('search')} placeholder="Поиск"></Input>
+                    <Input {...register('search')} placeholder={t('search')}></Input>
                 </SearchContainer>
                 <CategoryContainer>
                     <CategoryAutocomplete {...register('categoryId')} onSelect={onSelectCategory} />
@@ -81,14 +83,14 @@ export function FindSortAndFilterCourses(props: FindSortAndFilterCoursesProps) {
                             height: '20px',
                             width: '20px',
                         }}
-                        label="Подтверждено"
+                        label={t('approved')}
                         checkBox
                         type="checkbox"
                     >
                     </Input>
                 </ApprovedContainer>
             </StyledContainer>
-            { (isShowSubmit || isSubmitted) && <Button type="submit">Применить</Button>}
+            { (isShowSubmit || isSubmitted) && <Button type="submit">{t('apply')}</Button>}
         </form>
     );
 }

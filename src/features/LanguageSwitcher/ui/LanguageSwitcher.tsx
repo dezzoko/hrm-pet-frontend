@@ -1,9 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { SimpleSwitcher } from '@/shared/ui';
 
-interface LanguageSwitcherProps {
-}
-export function LanguageSwitcher(props: LanguageSwitcherProps) {
+export function LanguageSwitcher() {
     const { i18n } = useTranslation();
 
     const toggle = () => {

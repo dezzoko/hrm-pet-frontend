@@ -1,6 +1,4 @@
 import styled, { css } from 'styled-components';
-import { width } from '@fortawesome/free-solid-svg-icons/fa0';
-import { StyledTheme } from '@/app/types/styled.types';
 
 interface TitleProps {
     weight?: 200 | 300 | 400 | 500 | 600 | 700;
@@ -14,6 +12,8 @@ export enum TypographyColors{
 
 interface TypographyProps {
     color?: TypographyColors;
+    fontSize?:number;
+    textAlign?:'center'|'left'|'right';
 }
 const typographyColors = {
     primaryColor: css`
@@ -37,8 +37,10 @@ export const Title2 = styled.h1<TitleProps>`
 `;
 
 export const Typography = styled.p<TypographyProps>`
-  font-size: 16px;
+  font-size: ${({ fontSize = 16 }) => `${fontSize}px`};
+  text-align:${({ textAlign = 'left' }) => textAlign}
   ${({ color }) => typographyColors[color || TypographyColors.primaryColor]}
+
 `;
 
 export const Text = styled.span`
@@ -81,9 +83,9 @@ export const StyledTable = styled.table<StyledTableProps>`
 
 export const StyledTHead = styled.thead<StyledTableProps>`
   ${({ width }) => width && `${width}px`};
+  
   ${({ height }) => height && `${height}px`};
   background-color: ${({ theme }) => theme.bgColors.shadowColor};
-
   ${({ textAlign }) => textAlign && `${textAlign}`};
 `;
 

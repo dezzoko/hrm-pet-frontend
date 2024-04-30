@@ -1,6 +1,8 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { SidebarItemType } from '../../model/types/sidebar';
 import { useAppDispatch, useAppSelector } from '@/app/providers/StoreProvider/config/store';
 import { RoutePath } from '@/app/providers/router/config/route-config';
@@ -14,27 +16,28 @@ interface StyledSidebarProps {
     closed:boolean;
 }
 const StyledSidebar = styled.aside<StyledSidebarProps>`
+    position:relative;
     height: calc(100vh - ${({ theme }) => theme.sizes.header.height}px);
-box-shadow: 0px 4px 14px -3px rgba(0,0,0,0.75);
+    width: ${({ closed }) => (closed ? '0' : '250px')};
+    background-color: ${({ theme }) => theme.bgColors.primaryColor};
 
-    width: 200px;
     transition: width 0.3s;
-    ${({ closed }) => closed && `
-        width: 0px;
-            & > * {
-                display:none;        
-            }
-    `}  
+    box-shadow: 0px 4px 14px rgb(0 0 0 / 30%);
+
 `;
 
 const StyledCollapseButton = styled(Button)<StyledSidebarProps>`
     position: absolute;
     bottom: 10px;
-    left: 150px;
-    transition:  0.3s;
+    left: 180px;
+    opacity:0;
     ${({ closed }) => closed && `
     left: 0px;
     `}
+     &:hover {
+        opacity:1;
+
+    }
 `;
 
 const StyledItems = styled.div`
@@ -46,33 +49,41 @@ const StyledItems = styled.div`
 
 const RotatableIcon = styled(FontAwesomeIcon)<{$isactive:boolean}>`
   transform: rotate(${(props) => (props.$isactive ? '0deg' : '180deg')});
-  transition:0.3s;
 `;
 
 export function Sidebar() {
     const isOpen = useAppSelector((state) => state.sidebarReducer.isOpen);
     const dispatch = useAppDispatch();
-    const selectedText = useAppSelector((state) => state.sidebarReducer.selectedItem);
+    const selectedPath = useAppSelector((state) => state.sidebarReducer.selectedPath);
     const user = useAppSelector((state) => state.userReducer.user);
+    const location = useLocation();
+
+    const { t } = useTranslation();
+    useEffect(() => {
+        if (location.pathname !== selectedPath) {
+            dispatch(sidebarActions.setPath(location.pathname));
+        }
+    }, [dispatch, location, selectedPath]);
+
     const onClickHandler = (text:string) => {
-        dispatch(sidebarActions.setItem(text));
+        dispatch(sidebarActions.setPath(text));
     };
     const sidebarItemList:SidebarItemType[] = [
         {
             icon: ['fas', 'home'],
             // eslint-disable-next-line no-unsafe-optional-chaining
             path: RoutePath.profile + user?.id,
-            text: 'Profile',
+            text: t('Profile'),
         },
         {
             icon: ['fas', 'cog'],
             path: RoutePath.settings,
-            text: 'Settings',
+            text: t('Settings'),
         },
         {
             icon: ['fas', 'book'],
             path: RoutePath.course_applications,
-            text: 'Course Applications',
+            text: t('Course_Applications'),
             roles: [RolesEnum.TEACHER],
 
         },
@@ -88,7 +99,7 @@ export function Sidebar() {
                         }
                         return (
                             <SidebarItem
-                                selected={item.text === selectedText}
+                                selected={item.path === selectedPath}
                                 onClick={onClickHandler}
                                 isClosed={isOpen!}
                                 item={item}

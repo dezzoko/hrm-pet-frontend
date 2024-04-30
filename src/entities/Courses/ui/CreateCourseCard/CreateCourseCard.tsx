@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useId, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { Course } from '../../model/types/course';
 import { Autocomplete, Button, Input } from '@/shared/ui';
 import { useLazyFindCoursesCategoriesQuery } from '@/entities/CourseCategory/model/api/courseCategory.api';
@@ -43,6 +44,8 @@ export function CreateCourseCard(props: CourseCardProps) {
 
     const [search, { data }] = useLazyFindCoursesCategoriesQuery();
 
+    const { t } = useTranslation();
+
     const onSubmit :SubmitHandler<Inputs> = (data) => {
         if (category?.id) {
             onItemSaved({ ...data, courseCategoryId: category?.id });
@@ -62,33 +65,42 @@ export function CreateCourseCard(props: CourseCardProps) {
                 justifyContent: 'space-between',
             }}
             >
-                {isEditing && <Button form={idForm} type="submit">Сохранить</Button>}
-                <Button onClick={() => onClose()}>Закрыть</Button>
+                {isEditing && <Button form={idForm} type="submit">{t('save')}</Button>}
+                <Button onClick={() => onClose()}>{t('cancel')}</Button>
             </div>
             <StyledCard id={idForm} onSubmit={handleSubmit(onSubmit)}>
-                <Title>Название курса:</Title>
+                <Title>{t('name_course')}</Title>
                 <div>
 
                     <Input
-                        placeholder="Название"
+                        placeholder={t('name_course')}
                         {...register('name', { required: true, onChange: () => setIsEditing(true) })}
                     />
                 </div>
-                <Title>Описание курса:</Title>
+                <Title>
+                    {t('description_course')}
+                    :
+                </Title>
                 <div>
                     <Input
-                        placeholder="Описание"
+                        placeholder={t('description_course')}
                         {...register('description', { onChange: () => setIsEditing(true) })}
                     />
                 </div>
-                <Title>Ссылка:</Title>
+                <Title>
+                    {t('url')}
+                    :
+                </Title>
                 <div>
                     <Input
-                        placeholder="Ссылка"
+                        placeholder={t('url')}
                         {...register('additionalInfoUrl', { onChange: () => setIsEditing(true) })}
                     />
                 </div>
-                <Title>Категория:</Title>
+                <Title>
+                    {t('category')}
+                    :
+                </Title>
                 <div>
                     <Autocomplete onSelect={onSelect} search={search} searchResults={data || []} />
                 </div>

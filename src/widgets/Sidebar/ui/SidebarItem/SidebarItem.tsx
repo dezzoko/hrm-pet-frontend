@@ -16,9 +16,14 @@ const StyledLink = styled(Link)<{$isclosed:boolean, selected:boolean}>`
     display:flex;
     column-gap: 10px;
     font-weight: ${({ selected }) => (selected ? 'bold' : 'normal')};
+    scale:${({ selected }) => (selected ? 1.01 : 1)};
     &:hover{
-        color:${({ theme }) => theme.colors.primaryColor}
+        font-weight: bold;
+        scale:${({ selected }) => (selected ? 1.01 : 1.02)};
     };
+
+    color:${({ theme }) => theme.colors.primaryColor};
+    width:${({ $isclosed }) => ($isclosed ? 0 : '100%')};
     display:${({ $isclosed }) => ($isclosed ? 'none' : 'static')};
 `;
 
@@ -28,9 +33,13 @@ export function SidebarItem(props: SidebarItemProps) {
     } = props;
 
     return (
-        <StyledLink selected={selected} onClick={() => onClick(item.text)} $isclosed={isClosed} to={item.path}>
-            <FontAwesomeIcon icon={item.icon} />
-            <Typography>{item.text}</Typography>
+        <StyledLink selected={selected} onClick={() => onClick(item.path)} $isclosed={isClosed} to={item.path}>
+            <FontAwesomeIcon
+                icon={item.icon}
+            />
+            <Typography>
+                {item.text}
+            </Typography>
         </StyledLink>
     );
 }

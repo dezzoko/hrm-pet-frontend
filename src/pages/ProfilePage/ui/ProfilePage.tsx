@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { set } from 'react-hook-form';
 import {
     UserProfile, useGetUserQuery, useLazyGetMeQuery, useLazyGetUserQuery,
 } from '@/entities/User';

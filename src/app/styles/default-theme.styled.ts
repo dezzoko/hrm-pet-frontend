@@ -10,9 +10,12 @@ export const defaultTheme: StyledThemeAndVariables = {
         primaryColor: '#FFF',
         secondaryColor: 'rgb(121 144 255)',
         shadowColor: '#e3dfdf',
+        page: 'rgb(243 243 243)',
+        selected: 'rgba(123, 0, 213,0.5)',
+        rowHeaderColor: '#f2f2f2',
     },
     borderColors: {
-        primaryColor: '',
+        primaryColor: '#000000',
         secondaryColor: '',
     },
     colors: {

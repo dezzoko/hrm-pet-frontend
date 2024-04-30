@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { LOCAL_STORAGE_THEME_KEY, ThemeContext } from './ThemeContext';
-import { StyledThemeAndVariables, Theme } from '@/app/types/styled.types';
+import { StyledThemeAndVariables } from '@/app/types/styled.types';
 import { defaultTheme } from '@/app/styles';
 import { findTheme } from './findTheme';
 

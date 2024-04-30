@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLazyFindCoursesCategoriesQuery } from '@/entities/CourseCategory';
 import { CourseCategory } from '@/entities/CourseCategory/model/types/courseCategory';
 import { Autocomplete } from '@/shared/ui';
@@ -11,6 +12,7 @@ export const CategoryAutocomplete = forwardRef<HTMLInputElement, CategoryAutocom
     const { onSelect, selectedCategory } = props;
     const [search, { data }] = useLazyFindCoursesCategoriesQuery();
 
+    const { t } = useTranslation();
     return (
         <Autocomplete
             ref={ref}
@@ -18,7 +20,7 @@ export const CategoryAutocomplete = forwardRef<HTMLInputElement, CategoryAutocom
             search={search}
             searchResults={data || []}
             selectedValue={selectedCategory && selectedCategory}
-            placeholder="Категория"
+            placeholder={t('category')}
         />
     );
 });

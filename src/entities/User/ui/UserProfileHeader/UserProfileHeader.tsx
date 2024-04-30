@@ -3,8 +3,7 @@ import { Tab } from '@headlessui/react';
 import styled from 'styled-components';
 import { User } from '../../model/types/user';
 import { UserProfileCard } from '../..';
-import { Typography, TypographyColors } from '@/shared/ui/micro-components/micro-components';
-import { CoursesList } from '@/entities/Courses/ui/CoursesList/CourseList';
+import { Typography } from '@/shared/ui/micro-components/micro-components';
 import { UserCourseList } from '../UserCourseList/ui/UserCourseList';
 
 interface UserProfileHeaderProps {
@@ -14,15 +13,16 @@ interface UserProfileHeaderProps {
 const StyledTabList = styled(Tab.List)`
     display: flex;
     column-gap: 10px;
+    background-color: ${({ theme }) => theme.bgColors.primaryColor};
     margin-bottom: 10px;
-    background-color:white;
 `;
 
 const StyledTabItem = styled.div<{ selected: boolean }>`
     padding: 10px;
     width:100px;
+    color: ${({ theme }) => theme.colors.primaryColor};
     border-radius: 10px;
-    background-color: ${({ theme, selected }) => (selected ? theme.bgColors.shadowColor : 'white')};
+    background-color: ${({ theme, selected }) => (selected ? theme.bgColors.selected : theme.bgColors.primaryColor)};
     &:hover {
         opacity: ${({ selected }) => (selected ? 1 : 0.7)};
     }
@@ -35,10 +35,13 @@ export function UserProfileHeader(props: UserProfileHeaderProps) {
             <StyledTabList>
                 <Tab style={{ background: 'none' }}>
                     {({ selected }) => (
-                        <StyledTabItem selected={selected}>
-                            <Typography color={selected ? TypographyColors.redColor
-                                : TypographyColors.primaryColor}
-                            >
+                        <StyledTabItem
+                            style={{
+                                fontWeight: selected ? 'bold' : 'normal',
+                            }}
+                            selected={selected}
+                        >
+                            <Typography>
                                 Profile
                             </Typography>
                         </StyledTabItem>
@@ -48,8 +51,10 @@ export function UserProfileHeader(props: UserProfileHeaderProps) {
                     {({ selected }) => (
 
                         <StyledTabItem selected={selected}>
-                            <Typography color={selected ? TypographyColors.redColor
-                                : TypographyColors.primaryColor}
+                            <Typography style={{
+                                fontWeight: selected ? 'bold' : 'normal',
+
+                            }}
                             >
                                 Courses
                             </Typography>

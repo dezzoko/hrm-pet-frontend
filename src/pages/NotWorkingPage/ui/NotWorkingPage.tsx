@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 const StyledWrapper = styled.div`
@@ -8,9 +9,10 @@ const StyledWrapper = styled.div`
 `;
 
 export function NotWorkingPage() {
+    const { t } = useTranslation();
     return (
         <StyledWrapper>
-            Not working
+            {t('not_working')}
         </StyledWrapper>
     );
 }

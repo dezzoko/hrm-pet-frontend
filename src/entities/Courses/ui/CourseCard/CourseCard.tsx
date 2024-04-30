@@ -4,8 +4,11 @@ import {
     useCallback, useEffect, useId, useState,
 } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { Course } from '../../model/types/course';
-import { Autocomplete, Button, Input } from '@/shared/ui';
+import {
+    Autocomplete, Button, ButtonSize, Input,
+} from '@/shared/ui';
 import { CourseCategory } from '@/entities/CourseCategory/model/types/courseCategory';
 import { useLazyFindCoursesCategoriesQuery } from '@/entities/CourseCategory';
 
@@ -51,9 +54,10 @@ export function CourseCard(props: CourseCardProps) {
         register,
         handleSubmit,
         setValue,
-        formState: { errors },
+
     } = useForm<Inputs>();
 
+    const { t } = useTranslation();
     const [isEditing, setIsEditing] = useState(false);
 
     const [search, { data }] = useLazyFindCoursesCategoriesQuery();
@@ -76,12 +80,20 @@ export function CourseCard(props: CourseCardProps) {
         <FontAwesomeIcon color="red" icon={['fas', 'times']} />
     )), [course.isApproved]);
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div>
+                {t('loading')}
+                ...
+            </div>
+        );
     }
 
     const isApprovedElement = (isEditing:boolean) => (
         <>
-            <Title>Подтвержден?</Title>
+            <Title>
+                {t('approved')}
+                ?
+            </Title>
             {isEditing ? (
                 <Input
                     style={{
@@ -89,62 +101,72 @@ export function CourseCard(props: CourseCardProps) {
                     }}
                     checkBox
                     {...register('isApproved')}
-                    placeholder="Подтвержден"
+                    placeholder={t('approved')}
                     type="checkbox"
                 />
             ) : (
                 <IsApprovedIconElement />
             )}
-            <Title>Кем подтверждён?</Title>
+            <Title>{t('by_whom_approved')}</Title>
             {course.isApproved ? (
                 <StyledValue>{course.approvedBy?.name}</StyledValue>
             ) : (
-                <StyledValue>Не подтвержден</StyledValue>
+                <StyledValue>{t('not_approved')}</StyledValue>
             )}
         </>
     );
     return (
         <>
             <div style={{
+                display: 'flex',
                 marginBottom: '20px',
                 gap: '20px',
             }}
             >
-                { !isEditing ? <Button onClick={() => setIsEditing(true)}>Редактировать</Button>
-                    : <Button onClick={() => setIsEditing(false)}>Отменить</Button>}
-                {isEditing && <Button form={idForm} type="submit">Сохранить</Button>}
-                <Button onClick={() => onClose()}>Закрыть</Button>
+                { !isEditing ? <Button size={ButtonSize.M} onClick={() => setIsEditing(true)}>{t('edit')}</Button>
+                    : <Button size={ButtonSize.M} onClick={() => setIsEditing(false)}>{t('cancel')}</Button>}
+                {isEditing && <Button size={ButtonSize.M} form={idForm} type="submit">{t('save')}</Button>}
+                <Button size={ButtonSize.M} onClick={() => onClose()}>{t('cancel')}</Button>
             </div>
             <StyledCard id={idForm} onSubmit={handleSubmit(onSubmit)}>
-                <Title>Название курса:</Title>
+                <Title>
+                    {t('name_course')}
+                    :
+                </Title>
                 <div>
                     {isEditing ? (
                         <Input
-                            placeholder="Название"
+                            placeholder={t('name')}
                             {...register('name', { required: true })}
                         />
                     ) : (
                         <StyledValue>
-                            {course.name}
+                            {course?.name}
                         </StyledValue>
 
                     )}
                 </div>
-                <Title>Описание курса:</Title>
+                <Title>
+                    {t('description_course')}
+                    :
+                </Title>
                 <div>
                     {isEditing ? (
                         <Input
-                            placeholder="Описание"
+                            placeholder={t('description')}
                             {...register('description')}
                         />
                     ) : (
                         <StyledValue>
-                            {course.description}
+                            {course?.description}
                         </StyledValue>
 
                     )}
                 </div>
-                <Title>Категория</Title>
+                <Title>
+                    {t('category')}
+                    :
+                </Title>
                 <div>
                     {isEditing ? (
                         <Autocomplete
@@ -152,7 +174,7 @@ export function CourseCard(props: CourseCardProps) {
                             search={search}
                             searchResults={data || []}
                             selectedValue={course.courseCategory}
-                            placeholder="Категория"
+                            placeholder={t('category')}
                             {...register('courseCategory')}
                         />
                     ) : (
@@ -163,20 +185,26 @@ export function CourseCard(props: CourseCardProps) {
                     )}
                 </div>
 
-                <Title>Создал:</Title>
+                <Title>
+                    {t('creator')}
+                    :
+                </Title>
                 <StyledValue>
-                    {course.user.name}
+                    {course.user?.name}
                 </StyledValue>
-                <Title>Ссылка:</Title>
+                <Title>
+                    {t('url')}
+                    :
+                </Title>
                 <div>
                     {isEditing ? (
                         <Input
-                            placeholder="Ссылка"
+                            placeholder={t('url')}
                             {...register('additionalInfoUrl')}
                         />
                     ) : (
                         <StyledValue>
-                            {course.additionalInfoUrl}
+                            {course?.additionalInfoUrl}
                         </StyledValue>
 
                     )}

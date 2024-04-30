@@ -2,9 +2,7 @@
 import { useTheme } from '@/app/providers/ThemeProvider/lib/useTheme';
 import { Switcher } from '@/shared/ui/Switcher';
 
-interface ThemeSwitcherProps {
-}
-export function ThemeSwitcher(props: ThemeSwitcherProps) {
+export function ThemeSwitcher() {
     const { toggleTheme, theme } = useTheme();
 
     return (

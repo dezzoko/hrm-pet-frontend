@@ -33,6 +33,7 @@ const sizes: StyledVariants<ButtonSize> = {
   `,
     size_m: css`
     height: 45px;
+
     font-size: 14px;
   `,
     size_xl: css`
@@ -79,6 +80,9 @@ const buttonMods:Record<ButtonMods, any> = {
 export const Button = styled.button<ButtonProps>`
   cursor: pointer;
   border-radius: 5px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 
   color: ${({ theme }) => theme.colors.primaryColor};
 

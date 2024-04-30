@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useOutsideClick } from '@/shared/lib';
 
@@ -24,7 +24,13 @@ const Input = styled.input`
   padding: 10px;
   border: 1px solid #ccc;
   width:100%;
+  color: ${({ theme }) => theme.colors.primaryColor};
+  background-color: ${({ theme }) => theme.bgColors.primaryColor};
   border-radius: 5px;
+  ::placeholder {
+    color: ${({ theme }) => theme.colors.primaryColor};
+    opacity: 0.5; /* Firefox */
+}
 `;
 
 const SuggestionsList = styled.ul`
@@ -32,7 +38,7 @@ const SuggestionsList = styled.ul`
   top: 100%;
   left: 0;
   width: 100%;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.bgColors.primaryColor};
   border: 1px solid #ccc;
   border-top: none;
   border-radius: 0 0 5px 5px;
@@ -46,8 +52,9 @@ const SuggestionItem = styled.li`
   padding: 10px;
   cursor: pointer;
 
+  font-weight: 400;
   &:hover {
-    background-color: #f0f0f0;
+    background-color: ${({ theme }) => theme.bgColors.selected};
   }
 `;
 
@@ -56,7 +63,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
         onSelect, searchResults, search, placeholder, selectedValue,
     } = props;
     const [query, setQuery] = useState<string>(selectedValue?.name || '');
-    const [isShow, setIsShow] = useState<boolean>(true);
+    const [isShow, setIsShow] = useState<boolean>(false);
     const autocompleteRef = useRef<HTMLDivElement>(null);
     useOutsideClick(autocompleteRef, () => setIsShow(false));
 

@@ -11,5 +11,5 @@ export interface SidebarItemType {
 
 export interface SidebarSchema {
     isOpen?: boolean;
-    selectedItem?: string;
+    selectedPath?: string;
 }

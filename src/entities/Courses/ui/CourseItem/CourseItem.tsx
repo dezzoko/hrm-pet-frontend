@@ -1,8 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styled from 'styled-components';
 import { format } from 'date-fns';
 import { Course } from '../../model/types/course';
-import { StyledTRow, StyledTd } from '@/shared/ui/micro-components/micro-components';
 import { StyledCell, StyledRow } from '../CoursesList/CourseList';
 
 interface CourseItemProps {
